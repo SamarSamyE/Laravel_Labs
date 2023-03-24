@@ -9,8 +9,7 @@ class CommentController extends Controller
    public function store(Request $request,$id)
     {
         $post= Post::find($id);
-
-         $comment = request()->comment;
+        $comment = request()->comment;
         $post->comments()->create([
             'comment' => $comment,
           ]);

@@ -11,8 +11,11 @@
             <h5 class="card-title">Title: {{$post['title']}}</h5>
             <p class="card-text">Description: {{$post['description']}}</p>
             <p class="card-text">Created_at: {{$post->created_at_show}}</p>
+            @if($post->image_path)
+                    <img src="{{ asset('storage/'.$post->image_path) }}" alt="{{ $post->title }}" class="img-fluid">
+            @endif
         </div>
-    </div>
+
 
     <div class="card mt-6">
         <div class="card-header">
@@ -25,7 +28,7 @@
     </div>
 
 
-     <form method="post" action="{{route('comments.store', $post->id)}}">
+    <form method="post" action="{{route('comments.store', $post->id)}}">
     @csrf
     <div class="mb-3" >
             <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
