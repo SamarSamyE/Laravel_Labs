@@ -3,6 +3,7 @@ namespace Carbon;
 use Carbon\Carbon;
 namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Conner\Tagging\Taggable;
 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ class Post extends Model
 {
     use Sluggable;
     use HasFactory;
+    // use Taggable;
     protected $fillable = [
         'title',
         'slug',

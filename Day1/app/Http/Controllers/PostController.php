@@ -20,7 +20,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $allPosts = Post::paginate(10);
+        $allPosts = Post::with('user')->paginate(10);
         return view('post.index', ['posts' => $allPosts]);
     }
 
@@ -28,6 +28,8 @@ class PostController extends Controller
     {
 
         $post = Post::where('id', $id)->first();
+        // $post->tag(['laravel', 'php', 'web development']);
+        // $tags = $post->tags;
         $comments=$post->comments;
         return view('post.show', ["comments"=>$comments],['post' => $post]);
     }
@@ -49,7 +51,6 @@ public function update(StorePostRequest $request, $id)
     $post->title = $request->input('title');
     $post->description = $request->input('description');
 
-
     if ($request->hasFile('image')) {
         if ($post->image_path) {
             $imagePath=$post->image_path;
@@ -59,8 +60,6 @@ public function update(StorePostRequest $request, $id)
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('public/', $filename);
         $post->image_path = $filename;
-        // $path = Storage::putFileAs('posts', $image, $filename);
-        // $post->image_path = $path;
     }
     $post->save();
     return redirect()->route('posts.index');
@@ -72,7 +71,6 @@ public function update(StorePostRequest $request, $id)
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->user_id = $request->input('post_creator');
-
         if ($request->hasFile('image')) {
             $image = request()->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
@@ -80,7 +78,6 @@ public function update(StorePostRequest $request, $id)
             $post->image_path = $filename;
         }
         $post->save();
-
         return to_route('posts.index');
     }
 
